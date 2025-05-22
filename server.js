@@ -1,6 +1,6 @@
 import express from 'express';
-import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
+import multer from 'multer';
 
 import 'dotenv/config'
 
@@ -20,7 +20,7 @@ mongoose.connect(uri)
 // Create a schema and model for the collection
 const schema = new mongoose.Schema({
     cin: String,
-    title: String,
+    titre: String,
     ref: String,
     org: String,
     auth: Boolean
@@ -28,13 +28,9 @@ const schema = new mongoose.Schema({
 
 const Model = mongoose.model(STUDENTS, schema);
 
-let student_id = null;
-
 app.post('/api/submit/:cin', async (req, res) => {
     const cin = req.params.cin;
     const { titre, ref, org } = req.body;
-
-    console.log(org);
 
     try {
         await Model.findOneAndUpdate(
@@ -50,6 +46,48 @@ app.post('/api/submit/:cin', async (req, res) => {
 
 });
 
+// Configure multer for PDF uploads only
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/var/isetbz/uploads/raia/') // Make sure this folder exists
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+        // Only allow PDF files
+        if (file.mimetype === 'application/pdf') {
+            cb(null, true);
+        } else {
+            cb(new Error('Only PDF files are allowed!'), false);
+        }
+    },
+    limits: {
+        fileSize: 10 * 1024 * 1024 // 10MB limit
+    }
+});
+
+// Upload endpoint
+app.post('/upload', upload.single('pdf'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No PDF file uploaded' });
+    }
+    
+    res.json({
+        message: 'PDF uploaded successfully',
+        filename: req.file.filename,
+        originalName: req.file.originalname,
+        size: req.file.size
+    });
+});
+
+
+
+
 app.listen(PORT, HOSTNAME, () => {
-    console.log('Server is running on port 3000');
+    console.log(`Server is running on port ${PORT}`);
 });

@@ -46,7 +46,7 @@
     <h1 class="text-center">Master <strong>RAIA</strong></h1>
     <h2 class="text-center">Portail de dépôt</h2>
     
-    <div class="form-section">
+    <form class="form-section" id="uploadForm">
       <div class="mb-3">
         <label for="cin" class="form-label">CIN de l'étudiant</label>
         <div class="input-group">
@@ -69,19 +69,19 @@
       <!-- File upload button -->
       <div class="mb-4">
         <label for="fileUpload" class="form-label">Chargez fichier</label>
-        <input class="form-control" type="file" id="fileUpload">
+        <input class="form-control" type="file" id="fileUpload" accept=".pdf">
       </div>
       
       <!-- Submit button -->
       <div class="d-grid gap-2">
-        <button class="btn btn-success btn-lg" onclick="submitData()">Soumettez</button>
+        <button class="btn btn-success btn-lg" type="submit">Soumettez</button>
       </div>
-    </div>
+    </form>
   </div>
 
   <!-- Bootstrap JS from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-  <!-- script src="script.js" type="text/javascript"></script -->
-  <script src="dist/bundle.js"></script>
+  <script src="script.js" type="text/javascript"></script>
+  <!-- script src="dist/bundle.js"></script -->
 </body>
 </html>
