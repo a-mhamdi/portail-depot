@@ -7,4 +7,6 @@ Pour lancer le serveur, il suffit de tapper la commande suivante:
 pm2 start ecosystem.config.cjs --env production
 ```
 
+![Portail](portail.png)
+
 Le code est publié sous licence MIT. Consultez le fichier [LICENSE](LICENSE) pour plus de détails.
