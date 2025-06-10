@@ -50,3 +50,6 @@ Thumbs.db
 
 .env
 package-lock.json
+.venv
+data.csv
+update_db.py
